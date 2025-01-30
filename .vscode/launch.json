@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C++ Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/stock_analyzer",
+            // "args": ["lookup", "../data/sample_stock_data.csv", "2020-01-02"],
+            "args": ["rebalance", "../data/sample_stock_data.csv", "../data/portfolio.json", "5", "3", "random"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build",
+            "environment": [
+                {
+                    "name": "VCPKG_ROOT",
+                    "value": "${env:VCPKG_ROOT}"
+                }
+            ],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "CMake Build",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for lldb",
+                    "text": "settings set target.input-path ${workspaceFolder}/build",
+                    "ignoreFailures": true
+                }
+            ],
+            "sourceFileMap": {
+                "${workspaceFolder}": "${workspaceFolder}"
+            },
+            "logging": {
+                "trace": true,
+                "traceResponse": true,
+                "engineLogging": true
+            }
+        }
+    ]
+}

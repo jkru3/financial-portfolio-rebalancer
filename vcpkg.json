@@ -1,0 +1,11 @@
+{
+  "name": "stock-analyzer",
+  "version": "1.0.0",
+  "dependencies": [
+    "nlohmann-json",
+    "fmt",
+    "spdlog",
+    "cli11"
+  ],
+  "builtin-baseline": "d7112d1a4fb50410d3639f5f586972591d848beb"
+}
