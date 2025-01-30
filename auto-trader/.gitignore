@@ -1,0 +1,53 @@
+# Build directories
+build/
+out/
+cmake-build-*/
+
+# IDE specific files
+.idea/
+*.swp
+*.swo
+.vs/
+*.user
+*.suo
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# macOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# vcpkg
+vcpkg_installed/
+
+# LLM Prompts
+prompt*.md
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
