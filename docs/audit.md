@@ -1,0 +1,3 @@
+# Changes made:
+
+We agreed with all the feedback we got, and in response to this feedback, we revamped the ui, making it dark mode and creating a very clear contrast between all elements on the app. We also labeled the slider at the bottom, making it more clear what the slider is for and also touched up the various views to make it more polished and refined. Green and red numbers make it clear whether a stock is projected to go up or down, and we added a add button to the add view when adding stocks to make it clear that your changes were being saved. We also moved the refresh button to the top left and centered our title at the top of the screen.
