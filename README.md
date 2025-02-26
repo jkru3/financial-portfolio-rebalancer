@@ -4,7 +4,7 @@ mobile application for desktop and mobile
 
 TODO: Some features are buggy and needs some work to be integrated with auto-trader
 ## auto-trader: Cython backend (Python -> C++ for fast development and usage),
-injests stock data for the entire market and applies an EMA algorithm to forcast a prediction
+ingests stock data for the entire market and applies an EMA algorithm to forcast a prediction
 
 TODO: integrate this so it works with a time-series ML model too
 ## time-series-forcast: Kubernetes and regressive model (TBD a learning project for me 😂)
