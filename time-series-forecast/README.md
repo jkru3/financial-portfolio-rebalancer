@@ -1,3 +1,164 @@
+```mermaid
+flowchart TD
+    CSV[CSV Input] --> API[API Service]
+    API --> DataProc[Data Processing Service]
+    DataProc --> MLModel[ML Model Service]
+    MLModel --> DB[(Prediction Database)]
+    DB --> Dashboard[Grafana Dashboard]
+    
+    Prometheus --> |Scrapes Metrics| API
+    Prometheus --> |Scrapes Metrics| DataProc
+    Prometheus --> |Scrapes Metrics| MLModel
+    Prometheus --> |Scrapes Metrics| DB
+    
+    Dashboard --> |Displays Metrics| Prometheus
+    Dashboard --> |Displays Predictions| DB
+```
+
+# Stock Price Prediction System
+A simple, Kubernetes-based application for predicting stock prices 10 days into the future using regressive ML time-series models.
+## Architecture
+The system consists of the following components:
+
+1. **API Service** - Handles user requests and orchestrates data flow
+2. **Data Processing Service** - Validates, cleans, and prepares CSV data
+3. **ML Service** - Trains models and makes predictions
+4. **Prometheus** - Collects metrics from all services
+5. **Grafana** - Displays dashboards with metrics and application status
+
+All components are containerized and deployed on Kubernetes for scalability and reliability.
+## Data Format
+The system expects CSV files with the following format:
+Copyticker,sector,date,close,open,low,high,volume
+AAPL,Technology,2023-01-01,180.45,178.89,178.55,182.10,32567800
+AAPL,Technology,2023-01-02,182.65,181.50,180.70,183.25,35678900
+...
+The file should contain approximately 100 days of stock data for each ticker to make accurate predictions.
+## Machine Learning Models
+The system uses two types of regression models:
+
+**Linear Regression** - A simple baseline model
+**Random Forest Regression** - A more complex ensemble model
+
+Features used for prediction include:
+
+- Price changes (returns)
+- Volume changes
+- High-to-low price ratios
+- Close-to-open price ratios
+- Lagged features (1-5 days)
+
+The models predict the stock price 10 days into the future.
+## Deployment
+### Prerequisites
+
+Kubernetes cluster (can be local like Minikube or a cloud provider)
+kubectl configured to connect to your cluster
+Basic understanding of Kubernetes concepts
+
+### Deployment Steps
+
+Clone this repository:
+```bash
+git clone https://github.com/yourusername/stock-predictor.git
+cd stock-predictor
+```
+
+Create Kubernetes manifests from the provided artifacts:
+```bash
+# Create the kubernetes-manifests.yaml file
+# Create the configmap-manifests.yaml file
+# Create the monitoring-configs.yaml file
+```
+
+Apply the manifests to your Kubernetes cluster:
+```bash
+kubectl apply -f kubernetes-manifests.yaml
+kubectl apply -f configmap-manifests.yaml
+kubectl apply -f monitoring-configs.yaml
+```
+
+Wait for all pods to be running:
+```bash
+kubectl get pods -n stock-predictor
+```
+
+Access the application:
+```bash
+# If using Minikube
+minikube service -n stock-predictor api-service
+
+# If using a cloud provider, get the external IP
+kubectl get svc -n stock-predictor api-service
+```
+
+Access Grafana dashboards:
+```bash
+# If using Minikube
+minikube service -n stock-predictor grafana
+
+# If using a cloud provider, get the external IP
+kubectl get svc -n stock-predictor grafana
+```
+
+Default Grafana credentials:
+- Username: admin
+- Password: admin (change this in production)
+
+## Usage
+### Uploading Stock Data
+To upload stock data, use the API service:
+```bash
+curl -X POST -F "file=@your_stock_data.csv" http://<api-service-url>/upload
+```
+### Getting Available Tickers
+To get a list of available tickers from the uploaded data:
+```bash
+curl http://<api-service-url>/tickers
+```
+### Training Models for a Specific Ticker
+To train models for a specific ticker:
+```bash
+curl http://<api-service-url>/train/AAPL
+```
+### Making Predictions
+To get a prediction for a specific ticker:
+```bash
+curl http://<api-service-url>/predict/AAPL
+```
+### Batch Predictions
+To make predictions for multiple tickers at once:
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"tickers": ["AAPL", "MSFT", "GOOGL"]}' http://<api-service-url>/batch-predict
+```
+### Monitoring
+The system provides comprehensive monitoring via Prometheus and Grafana:
+
+- **API Service Metrics** - Request rates, response times, error counts
+- **ML Service Metrics** - Model accuracy, prediction times, training requests
+- **Data Processing Metrics** - Processing times, records processed
+
+Access the Grafana dashboard at `http://<grafana-url>` and log in with the credentials mentioned above.
+## Customization
+### Adding New Models
+To add new ML models, modify the `ml-service-code` ConfigMap in the `configmap-manifests.yaml` file:
+
+Import your desired model from scikit-learn or another library
+Add it to the `models_to_train` dictionary in the `train_models` function
+Update the `predict` function to use the new model
+
+## Scaling the System
+To handle more requests, you can scale the API service:
+`kubectl scale deployment api-service -n stock-predictor --replicas=5`
+For processing larger datasets, increase the resource limits in the Deployment specs.
+
+## Limitations and Future Improvements
+- Currently, the system only supports CSV file input. Future versions could add API integrations with financial data providers.
+- The models are simple regressive models. More sophisticated models like LSTM, ARIMA, or Prophet could be implemented.
+- Add user authentication and multi-tenancy support.
+- Implement model versioning and A/B testing.
+- Add automated retraining on a schedule.
+
 # Roadmap for Barebones Stock Price Speculation Platform
 ## Phase 1: Set Up the Kubernetes Environment
 - [ ] Set Up a Kubernetes Cluster:

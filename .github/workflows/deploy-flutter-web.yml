@@ -1,0 +1,36 @@
+name: Deploy Flutter Web App
+
+on:
+  push:
+    branches: [ main ]
+    # Optional: Adjust paths to only trigger when your Flutter project changes
+    paths:
+      - 'trade_dashboard/**'  # Adjust this to match your actual path
+      - '.github/workflows/deploy-flutter-web.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+      
+      # Get dependencies
+      - name: Get dependencies
+        working-directory: ./trade_dashboard  # Relative to repository root
+        run: flutter pub get
+      
+      # Build web version
+      - name: Build web
+        working-directory: ./trade_dashboard  # Relative to repository root
+        run: flutter build web --release --web-renderer canvaskit
+      
+      # Deploy to GitHub Pages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./trade_dashboard/build/web  # Relative to repository root
