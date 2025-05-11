@@ -1,4 +1,13 @@
 # financial-portfolio-rebalancer
-Trade Dashboard: accessible, responsive, UX focused frontend app for stock trading
-Auto Trader: Technical Analysis with data caching to make <5 second stock speculations and rebalance current holdings with a >$25% YOY
-Time Series Forcast: building a Kubernetes cluster with a Prometheus and Grafana to ingest preprocessed stock data and train a regressive, supervised machine learning model to make time series forcasts on stock prices
+## trade-dashboard: flutter frontend
+mobile application for desktop and mobile
+
+TODO: Some features are buggy and needs some work to be integrated with auto-trader
+## auto-trader: Cython backend (Python -> C++ for fast development and usage),
+ingests stock data for the entire market and applies an EMA algorithm to forcast a prediction *N* days in the future
+
+TODO: integrate this so it works with a time-series ML model too
+## time-series-forcast: Kubernetes and regressive model (TBD a learning project for me 😂)
+this component will make the ML models that the auto-trader uses to make projections
+
+no work has been started on this component yet
